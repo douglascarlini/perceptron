@@ -49,9 +49,9 @@ var Perceptron = function () {
 
             }
 
-            console.log(`Interaction: ${interaction} - Error: ${diff.toFixed(12)}`);
-            if (!error || interaction > net.interactions) break;
             interaction++;
+            if (!error || interaction > net.interactions) break;
+            console.log(`Interaction: ${interaction} - Error: ${diff.toFixed(12)}`);
 
         }
     };

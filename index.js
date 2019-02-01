@@ -2,50 +2,49 @@
 
 function plan(max) { return parseInt(-max + Math.random() * (max * 2)); }
 function rand(max) { return parseInt(Math.random() * max); }
-var dataset = [], zeros = 0, ones = 0, loop, max = 99;
+var dataset = [], loop, max = 99;
 
 function initData() {
 
-    for (let i = 0; i < 999; i++) {
-
-        var o = plan(5);
-        var x = rand(max);
-        var y = rand(max);
-        o = o > 0 ? 1 : 0;
-        if (o > 0) ones++; else zeros++;
-
-        dataset.push({ inputs: [x, y], output: o });
-
+    for (let i = 0; i < 300; i++) {
+        dataset.push({ inputs: [rand(max), rand(max)], output: 0 });
+        dataset.push({ inputs: [rand(max), rand(max)], output: 1 });
     }
-
-    console.log({ zeros, ones });
 
 }
 
 function run() {
 
     var neuron = new Perceptron();
-    var ctx = Canvas.create();
-    neuron.init(0.5, 1000);
+    neuron.init(0.5, 10000);
     neuron.train(dataset);
+
+    var errors = 0;
+    var counter = 0;
+    var ctx = Canvas.create();
+    Canvas.write(ctx, `Dataset: ${dataset.length}`, 10, 25, 20);
 
     loop = setInterval(function () {
 
         var x = rand(max), y = rand(max);
         var o = neuron.run([x, y]);
 
-        console.log({ x, y, o });
+        counter++;
         render(ctx, x, y, o, max, 100);
-        if (o == 0 || o == 1) dataset.push({ inputs: [x, y], output: o });
+        if (o == 0 || o == 1) dataset.push({ inputs: [x, y], output: o }); else errors++;
 
-    }, 50);
+    }, 20);
 
     setTimeout(function () {
 
+        var accuracy = `${(100 - ((errors * 100) / counter)).toFixed(2)}%`;
+        Canvas.write(ctx, accuracy, 7, 100, 50);
+        console.log({ accuracy });
         clearInterval(loop);
+        neuron = null;
         run();
 
-    }, 9999);
+    }, 5000);
 
 }
 

@@ -1,16 +1,22 @@
-var Canvas = {
+const Canvas = {
 
-    w: 400,
-    h: 400,
+    w: 300,
+    h: 300,
 
     create: function () {
         var group = document.getElementById('canvas');
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext("2d");
-        group.appendChild(canvas);
         canvas.height = this.w;
         canvas.width = this.h;
+        group.insertBefore(canvas, group.childNodes[0]);
         return ctx;
+    },
+
+    write: function (ctx, text, x, y, s) {
+        ctx.font = `${s}px monospace`;
+        ctx.fillStyle = "rgb(0,0,0)";
+        ctx.fillText(text, x, y);
     }
 
 };
