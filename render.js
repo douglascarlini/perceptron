@@ -1,16 +1,31 @@
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var h = canvas.height;
-var w = canvas.width;
+var Canvas = {
 
-function render(x, y, o, max) {
+    w: 400,
+    h: 400,
 
-    x = (x * w) / max;
-    y = (y * h) / max;
+    create: function () {
+        var group = document.getElementById('canvas');
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext("2d");
+        group.appendChild(canvas);
+        canvas.height = this.w;
+        canvas.width = this.h;
+        return ctx;
+    }
+
+};
+
+function render(ctx, x, y, o, max, alpha) {
+
+    var a = alpha / 100;
+    var colors = [`0,180,0,${a}`, `0,0,255,${a}`, `255,0,0,${a}`];
+
+    x = (x * Canvas.w) / max;
+    y = (y * Canvas.h) / max;
 
     ctx.save();
 
-    ctx.fillStyle = (o == 0 ? "green" : (o == 1 ? "blue" : "red"));
+    ctx.fillStyle = 'rgba(' + (colors[o] || colors[2]) + ')';
     ctx.beginPath();
     ctx.arc(x, y, 5, 2 * Math.PI, false);
     ctx.fill();
