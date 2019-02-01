@@ -1,40 +1,44 @@
-const Canvas = {
+function Canvas() {
 
-    w: 300,
-    h: 300,
+    this.w = 300;
+    this.h = 300;
+    this.writeCounter = 1;
 
-    create: function () {
+    this.create = function () {
+
         var group = document.getElementById('canvas');
         var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext("2d");
+        this.ctx = canvas.getContext("2d");
         canvas.height = this.w;
         canvas.width = this.h;
-        group.insertBefore(canvas, group.childNodes[0]);
-        return ctx;
-    },
 
-    write: function (ctx, text, x, y, s) {
-        ctx.font = `${s}px monospace`;
-        ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillText(text, x, y);
-    }
+        group.insertBefore(canvas, group.childNodes[0]);
+
+    };
+
+    this.write = function (text, s) {
+
+        var y = 15 + (s * this.writeCounter * 1.5);
+        this.ctx.font = `${parseInt((s * this.h) / 100)}px monospace`;
+        this.ctx.fillStyle = "rgb(0,0,0)";
+        this.ctx.fillText(text, 10, y);
+        this.writeCounter++;
+
+    };
+
+    this.circle = function (x, y, o, max, alpha) {
+        var a = alpha / 100;
+        x = (x * this.w) / max, y = (y * this.h) / max;
+        var colors = [`0,180,0,${a}`, `0,0,255,${a}`, `255,0,0,${a}`];
+
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(' + (colors[o] || colors[2]) + ')';
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, 5, 2 * Math.PI, false);
+        this.ctx.fill();
+        this.ctx.restore();
+    };
+
+    this.create();
 
 };
-
-function render(ctx, x, y, o, max, alpha) {
-
-    var a = alpha / 100;
-    var colors = [`0,180,0,${a}`, `0,0,255,${a}`, `255,0,0,${a}`];
-
-    x = (x * Canvas.w) / max;
-    y = (y * Canvas.h) / max;
-
-    ctx.save();
-
-    ctx.fillStyle = 'rgba(' + (colors[o] || colors[2]) + ')';
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 2 * Math.PI, false);
-    ctx.fill();
-
-    ctx.restore();
-}

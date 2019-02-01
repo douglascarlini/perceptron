@@ -16,13 +16,13 @@ function initData() {
 function run() {
 
     var neuron = new Perceptron();
+    var canv = new Canvas();
     neuron.init(0.5, 10000);
     neuron.train(dataset);
-
-    var errors = 0;
     var counter = 0;
-    var ctx = Canvas.create();
-    Canvas.write(ctx, `Dataset: ${dataset.length}`, 10, 25, 20);
+    var errors = 0;
+
+    canv.write(`Dataset: ${dataset.length}`, 7);
 
     loop = setInterval(function () {
 
@@ -30,7 +30,7 @@ function run() {
         var o = neuron.run([x, y]);
 
         counter++;
-        render(ctx, x, y, o, max, 100);
+        canv.circle(x, y, o, max, 100);
         if (o != 0 && o != 1) errors++;
         dataset.push({ inputs: [x, y], output: o });
 
@@ -38,9 +38,9 @@ function run() {
 
     setTimeout(function () {
 
-        var accuracy = `${(100 - ((errors * 100) / counter)).toFixed(1)}%`;
-        Canvas.write(ctx, accuracy, 7, 100, 50);
+        var accuracy = `${(100 - ((errors * 100) / counter)).toFixed(2)}%`;
         console.log({ accuracy });
+        canv.write(accuracy, 20);
         clearInterval(loop);
         neuron = null;
         run();
