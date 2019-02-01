@@ -1,7 +1,8 @@
-function Canvas() {
+function Canvas(w, h) {
 
-    this.w = 300;
-    this.h = 300;
+    this.w = w;
+    this.h = h;
+
     this.writeCounter = 1;
 
     this.create = function () {

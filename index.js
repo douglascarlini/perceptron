@@ -15,8 +15,8 @@ function initData() {
 
 function run() {
 
+    var canv = new Canvas(200, 200);
     var neuron = new Perceptron();
-    var canv = new Canvas();
     neuron.init(0.5, 10000);
     neuron.train(dataset);
     var counter = 0;
