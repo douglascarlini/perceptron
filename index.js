@@ -31,13 +31,14 @@ function run() {
 
         counter++;
         render(ctx, x, y, o, max, 100);
-        if (o == 0 || o == 1) dataset.push({ inputs: [x, y], output: o }); else errors++;
+        if (o != 0 && o != 1) errors++;
+        dataset.push({ inputs: [x, y], output: o });
 
     }, 20);
 
     setTimeout(function () {
 
-        var accuracy = `${(100 - ((errors * 100) / counter)).toFixed(2)}%`;
+        var accuracy = `${(100 - ((errors * 100) / counter)).toFixed(1)}%`;
         Canvas.write(ctx, accuracy, 7, 100, 50);
         console.log({ accuracy });
         clearInterval(loop);
