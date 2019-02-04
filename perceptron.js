@@ -71,8 +71,11 @@ var Perceptron = function () {
         }
 
         sum += net.bias;
-        return net.sigmoid(sum);
-
+        if (isNaN(sum) || isNaN(net.bias)) console.log({ sum, bias: net.bias });
+        var s = net.sigmoid(sum);
+        if (isNaN(s)) console.log({ s, sum, bias: net.bias });
+        alert("OK");
+        return s;
     };
 
 };

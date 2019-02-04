@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game - IA</title>
+    <script src="game.js"></script>
+    <script src="ship.js"></script>
+    <link href="game.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        Game.init();
+        var ship = new Ship({ px: 100, py: 100, pr: 0 });
+        Game.objects.ships.push(ship);
+    </script>
+</body>
+
+</html>
