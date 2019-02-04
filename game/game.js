@@ -4,7 +4,7 @@ var Game = {
     canvas: false,
     display: { w:  800, h: 400 },
     objects: { ships: [], missiles: [] },
-    keys: { u: false, d: false, l: false, r: false },
+    keys: { u: false, d: false, l: false, r: false, a: false, b: false },
 
     init: function () {
         window.addEventListener('keydown', Game.keyD, false);
@@ -17,7 +17,9 @@ var Game = {
     },
 
     loop: function () {
-        
+
+        Game.ctx.clearRect(0, 0, Game.display.w, Game.display.h);
+
         for (var i in Game.objects) {
             for (var j in Game.objects[i]) {
                 Game.render(Game.objects[i][j]);
@@ -26,12 +28,11 @@ var Game = {
         }
 
         setTimeout(Game.loop, 20);
+        Game.player();
 
     },
 
     render: function (obj) {
-
-        Game.ctx.clearRect(0, 0, Game.display.w, Game.display.h);
 
         Game.ctx.save();
         Game.ctx.translate(obj.px, obj.py);
@@ -57,6 +58,21 @@ var Game = {
             case 38: Game.keys.u = state; break;
             case 39: Game.keys.r = state; break;
             case 40: Game.keys.d = state; break;
+            case 90: Game.keys.a = state; break;
+        }
+    },
+
+    player: function () {
+        if(Game.objects.ships.length) {
+            Game.objects.ships[0].keys = Game.keys;
+        }
+    },
+
+    destroy: function (obj, list) {
+        for (var i in list) {
+            if (list[i] == obj) {
+                return list.splice(i, 1);
+            }
         }
     }
 

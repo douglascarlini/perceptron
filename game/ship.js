@@ -17,21 +17,39 @@ function Ship(p) {
     this.img = new Image();
     this.img.src = 'ship.png';
 
+    this.keys = { u: false, d: false, l: false, r: false, a: false },
+
+    this.bind = { mNum: 0, mInt: 7 },
+
     this.move = function () {
 
         this.vx *= this.vf;
         this.vy *= this.vf;
         this.vr *= this.vf;
 
-        if (Game.keys.u) this.vy -= this.va;
-        if (Game.keys.d) this.vy += this.va;
-        if (Game.keys.l) this.vx -= this.va;
-        if (Game.keys.r) this.vx += this.va;
+        if (this.keys.u) this.vy -= this.va;
+        if (this.keys.d) this.vy += this.va;
+        if (this.keys.l) this.vx -= this.va;
+        if (this.keys.r) this.vx += this.va;
+        if (this.keys.a) (this.bind.mNum > this.bind.mInt) ? this.missile() : null;
 
         this.px += this.vx;
         this.py += this.vy;
         this.pr += this.vr;
+        this.pr = this.vy;
+        this.bind.mNum++;
 
     };
+
+    this.miss = function (missile) {
+        console.log(missile);
+    };
+
+    this.missile = function () {
+        var missile = new Missile({ px: this.px, py: this.py, pr: this.pr });
+        Game.objects.missiles.push(missile);
+        missile.owner = this;
+        this.bind.mNum = 0;
+    }
 
 }
