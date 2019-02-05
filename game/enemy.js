@@ -1,4 +1,4 @@
-function Ship(p) {
+function Enemy(p) {
 
     var self = this;
 
@@ -16,8 +16,11 @@ function Ship(p) {
     this.miss = false;
 
     this.dataset = [];
+    this.enemies = [];
+    this.neuron = null;
+    this.trained = false;
     this.img = new Image();
-    this.img.src = 'ship.png';
+    this.img.src = 'enemy.png';
     this.initial = { x: p.px, y: p.py, r: p.pr };
 
     this.keys = { u: false, d: false, l: false, r: false, a: false };
@@ -27,6 +30,8 @@ function Ship(p) {
     this.bind = { mNum: 0, mInt: 7 };
 
     this.move = function () {
+
+        this.think();
 
         this.vx *= this.vf;
         this.vy *= this.vf;
@@ -46,24 +51,49 @@ function Ship(p) {
     };
 
     this.hit = function (params, target) {
-
         var d = Calc.dist(params, target);
         this.dataset.push({ inputs: [d.x, d.y], output: 1 });
-
     };
 
     this.miss = function (params, target) {
-
         var d = Calc.dist(params, target);
         this.dataset.push({ inputs: [d.x, d.y], output: 0 });
-
     };
 
     this.missile = function () {
-        var missile = new Missile({ px: this.px, py: this.py, pr: this.pr, enemies: Game.objects.enemies });
+        var missile = new Missile({ px: this.px, py: this.py, pr: this.pr, enemies: this.enemies });
         Game.objects.missiles.push(missile);
         missile.owner = this;
         this.bind.mNum = 0;
-    }
+    };
+
+    this.train = function () {
+
+        if (!this.trained && this.dataset.length > 9) {
+
+            if (!this.neuron) {
+                this.neuron = new Perceptron();
+                this.neuron.init(0.5, 1000);
+            }
+
+            this.neuron.train(this.dataset);
+            this.trained = true;
+
+        }
+
+        setTimeout(() => { self.train(); }, 3000);
+
+    };
+
+    this.think = function () {
+
+        if (this.trained) {
+            for (let i in this.enemies) {
+                var d = Calc.dist(this, this.enemies[i]);
+                this.neuron.run([d.x * -1, d.y * -1], (o) => { self.keys.a = (o == 1) ? true : false });
+            }
+        }
+
+    };
 
 }

@@ -2,8 +2,8 @@ var Game = {
 
     ctx: false,
     canvas: false,
-    display: { w:  800, h: 400 },
-    objects: { ships: [], missiles: [] },
+    display: { w: 800, h: 400 },
+    objects: { ships: [], missiles: [], enemies: [] },
     keys: { u: false, d: false, l: false, r: false, a: false, b: false },
 
     init: function () {
@@ -45,14 +45,13 @@ var Game = {
 
     keyD: function (e) {
         Game.actions(e.keyCode, true);
-        console.log(e.keyCode);
     },
 
     keyU: function (e) {
         Game.actions(e.keyCode, false);
     },
 
-    actions: function(code, state) {
+    actions: function (code, state) {
         switch (code) {
             case 37: Game.keys.l = state; break;
             case 38: Game.keys.u = state; break;
@@ -63,7 +62,7 @@ var Game = {
     },
 
     player: function () {
-        if(Game.objects.ships.length) {
+        if (Game.objects.ships.length) {
             Game.objects.ships[0].keys = Game.keys;
         }
     },
@@ -75,5 +74,21 @@ var Game = {
             }
         }
     }
+
+};
+
+window.onload = function () {
+
+    var enemy = new Enemy({ px: 500, py: 100, pr: 180 });
+    var ship = new Ship({ px: 100, py: 100, pr: 0 });
+    Game.objects.enemies.push(enemy);
+    Game.objects.ships.push(ship);
+    enemy.enemies.push(ship);
+    Game.init();
+
+    setTimeout(() => {
+        enemy.dataset = ship.dataset;
+        enemy.train();
+    }, 5000);
 
 };

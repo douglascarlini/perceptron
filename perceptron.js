@@ -19,9 +19,7 @@ var Perceptron = function () {
 
     this.initWeights = function (num) {
         net.bias = parseInt(Math.random() * 10);
-        for (let i = 0; i < num; i++) {
-            net.weights[i] = parseInt(Math.random() * 10);
-        }
+        for (let i = 0; i < num; i++) net.weights[i] = parseInt(Math.random() * 10);
     };
 
     this.train = function (data) {
@@ -62,7 +60,7 @@ var Perceptron = function () {
         }
     };
 
-    this.run = function (inputs) {
+    this.run = function (inputs, callback) {
 
         var sum = 0;
 
@@ -71,11 +69,8 @@ var Perceptron = function () {
         }
 
         sum += net.bias;
-        if (isNaN(sum) || isNaN(net.bias)) console.log({ sum, bias: net.bias });
-        var s = net.sigmoid(sum);
-        if (isNaN(s)) console.log({ s, sum, bias: net.bias });
-        alert("OK");
-        return s;
+        var o = net.sigmoid(sum);
+        return callback ? callback(o) : o;
     };
 
 };
