@@ -15,6 +15,7 @@ function Ship(p) {
 
     this.miss = false;
 
+    this.enemies = [];
     this.dataset = [];
     this.img = new Image();
     this.img.src = 'ship.png';
@@ -60,7 +61,7 @@ function Ship(p) {
     };
 
     this.missile = function () {
-        var missile = new Missile({ px: this.px, py: this.py, pr: this.pr, enemies: Game.objects.enemies });
+        var missile = new Missile({ px: this.px, py: this.py, pr: this.pr, enemies: this.enemies });
         Game.objects.missiles.push(missile);
         missile.owner = this;
         this.bind.mNum = 0;

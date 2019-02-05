@@ -3,7 +3,7 @@ var Calc = {
     dist: (a, b) => {
         var x = b.px - a.px;
         var y = b.py - a.py;
-        return { x, y, t: Math.sqrt((x * x) + (y * y)) };
+        return { x, y, t: Math.sqrt(x * x + y * y) };
     },
 
     offscreen: (obj, w, h) => {

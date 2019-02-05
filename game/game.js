@@ -83,6 +83,7 @@ window.onload = function () {
     var ship = new Ship({ px: 100, py: 100, pr: 0 });
     Game.objects.enemies.push(enemy);
     Game.objects.ships.push(ship);
+    ship.enemies.push(enemy);
     enemy.enemies.push(ship);
     Game.init();
 

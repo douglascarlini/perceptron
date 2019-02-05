@@ -50,8 +50,12 @@ function Missile(p) {
         } else {
 
             for (var i in this.enemies) {
+
                 var dist = Calc.dist(this, this.enemies[i]);
-                if (dist.t < 90) {
+
+                if (dist.t < 20) {
+
+                    console.log(dist);
 
                     var obj = this.enemies[i];
                     var init = this.initial;
@@ -61,6 +65,7 @@ function Missile(p) {
                     this.owner.hit(init, { px: obj.px, py: obj.py, pr: obj.pr });
 
                 }
+
             }
 
         }
