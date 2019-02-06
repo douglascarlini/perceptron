@@ -23,8 +23,8 @@ function Missile(p) {
     this.initial = { px: p.px, py: p.py, pr: p.pr };
 
     this.keys = { u: false, d: false, l: false, r: false, m: false };
-
-    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].width; };
+    this.target = this.enemies.length ? this.enemies[0] : { px: 0, py: 0, pr: 0 };
+    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].height; };
 
     this.move = function () {
 
@@ -41,10 +41,8 @@ function Missile(p) {
 
         if (Calc.offscreen(this, Game.display.w, Game.display.h)) {
 
-            var target = this.enemies.length ? this.enemies[0] : { px: 0, py: 0, pr: 0 };
-
             this.miss = true;
-            this.owner.miss(this, target);
+            this.owner.miss(this, this.target);
             Game.destroy(this, Game.objects.missiles);
 
         } else {
@@ -53,9 +51,7 @@ function Missile(p) {
 
                 var dist = Calc.dist(this, this.enemies[i]);
 
-                if (dist.t < 20) {
-
-                    console.log(dist);
+                if (dist.t < 30) {
 
                     var obj = this.enemies[i];
                     var init = this.initial;

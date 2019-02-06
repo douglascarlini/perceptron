@@ -20,12 +20,12 @@ function Enemy(p) {
     this.neuron = null;
     this.trained = false;
     this.img = new Image();
-    this.img.src = 'enemy.png';
+    this.img.src = 'ship.png';
     this.initial = { x: p.px, y: p.py, r: p.pr };
 
     this.keys = { u: false, d: false, l: false, r: false, a: false };
 
-    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].width; };
+    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].height; };
 
     this.bind = { mNum: 0, mInt: 7 };
 
@@ -51,13 +51,17 @@ function Enemy(p) {
     };
 
     this.hit = function (params, target) {
+
         var d = Calc.dist(params, target);
         this.dataset.push({ inputs: [d.x, d.y], output: 1 });
+
     };
 
     this.miss = function (params, target) {
+
         var d = Calc.dist(params, target);
         this.dataset.push({ inputs: [d.x, d.y], output: 0 });
+
     };
 
     this.missile = function () {
@@ -67,21 +71,16 @@ function Enemy(p) {
         this.bind.mNum = 0;
     };
 
-    this.train = function () {
+    this.train = function (dataset) {
 
-        if (!this.trained && this.dataset.length > 9) {
+        this.trained = false;
 
-            if (!this.neuron) {
-                this.neuron = new Perceptron();
-                this.neuron.init(0.5, 1000);
-            }
-
-            this.neuron.train(this.dataset);
-            this.trained = true;
-
-        }
-
-        setTimeout(() => { self.train(); }, 3000);
+        setTimeout(() => { self.train(self.dataset) }, 9999);
+        this.neuron = new Perceptron();
+        this.neuron.init(0.5, 1000);
+        this.neuron.train(dataset);
+        this.dataset = dataset;
+        this.trained = true;
 
     };
 
@@ -90,7 +89,12 @@ function Enemy(p) {
         if (this.trained) {
             for (let i in this.enemies) {
                 var d = Calc.dist(this, this.enemies[i]);
-                this.neuron.run([d.x * -1, d.y * -1], (o) => { self.keys.a = (o == 1) ? true : false });
+                this.neuron.run([d.x, d.y], (o) => {
+
+                    self.keys.a = ((o == 1) ? true : false);
+                    console.log({ x: d.x, y: d.y, o });
+
+                });
             }
         }
 

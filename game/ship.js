@@ -23,7 +23,7 @@ function Ship(p) {
 
     this.keys = { u: false, d: false, l: false, r: false, a: false };
 
-    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].width; };
+    this.img.onload = function (e) { self.sw = e.path[0].width; self.sh = e.path[0].height; };
 
     this.bind = { mNum: 0, mInt: 7 };
 

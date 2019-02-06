@@ -1,4 +1,3 @@
-// module.exports = function () {
 var Perceptron = function () {
 
     var net = this;
@@ -9,7 +8,7 @@ var Perceptron = function () {
     this.interactions = 1000;
 
     this.sigmoid = function (x) {
-        return (1 / (1 - Math.exp(x * -1)));
+        return (1 / (1 + Math.exp(x * -1)));
     };
 
     this.init = function (learnRate, interactions) {
@@ -74,3 +73,5 @@ var Perceptron = function () {
     };
 
 };
+
+module.exports = Perceptron;
