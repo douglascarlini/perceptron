@@ -53,14 +53,24 @@ function Enemy(p) {
     this.hit = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ x: [d.x, d.y], y: 1 });
+        this.dataset.push({ x: [parseInt(d.x), parseInt(d.y)], y: 1 });
 
     };
 
     this.miss = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ x: [d.x, d.y], y: 0 });
+        this.addmem({ x: [parseInt(d.x), parseInt(d.y)], y: 0 });
+
+    };
+
+    this.addmem = function (data) {
+
+        for (let i = 0; i < this.dataset.length; i++) {
+            if (this.dataset[i] == data) return;
+        }
+
+        this.dataset.push(data);
 
     };
 
@@ -78,6 +88,7 @@ function Enemy(p) {
         setTimeout(() => { self.train(self.dataset) }, 9999);
         this.dataset = dataset;
         treinar(this.dataset);
+        console.log(dataset);
         this.trained = true;
 
     };
@@ -88,12 +99,10 @@ function Enemy(p) {
             for (let i in this.enemies) {
 
                 var d = Calc.dist(this, this.enemies[i]);
-                var x = [d.x, d.y];
+                var x = [parseInt(d.x), parseInt(d.y)];
                 var o = testar(x);
 
                 self.keys.a = ((o == 1) ? true : false);
-
-                console.log({ x, o });
 
             }
         }
