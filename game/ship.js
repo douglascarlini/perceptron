@@ -49,14 +49,14 @@ function Ship(p) {
     this.hit = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ inputs: [d.x, d.y], output: 1 });
+        this.dataset.push({ x: [d.x, d.y], y: 1 });
 
     };
 
     this.miss = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ inputs: [d.x, d.y], output: 0 });
+        this.dataset.push({ x: [d.x, d.y], y: 0 });
 
     };
 

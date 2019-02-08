@@ -42,7 +42,8 @@ function Missile(p) {
         if (Calc.offscreen(this, Game.display.w, Game.display.h)) {
 
             this.miss = true;
-            this.owner.miss(this, this.target);
+            var target = this.enemies[0];
+            this.owner.miss(this.initial, target);
             Game.destroy(this, Game.objects.missiles);
 
         } else {
@@ -53,12 +54,10 @@ function Missile(p) {
 
                 if (dist.t < 30) {
 
-                    var obj = this.enemies[i];
-                    var init = this.initial;
                     this.miss = false;
-
+                    var init = this.initial;
+                    this.owner.hit(init, this.enemies[i]);
                     Game.destroy(this, Game.objects.missiles);
-                    this.owner.hit(init, { px: obj.px, py: obj.py, pr: obj.pr });
 
                 }
 

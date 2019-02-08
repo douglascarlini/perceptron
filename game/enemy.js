@@ -53,14 +53,14 @@ function Enemy(p) {
     this.hit = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ inputs: [d.x, d.y], output: 1 });
+        this.dataset.push({ x: [d.x, d.y], y: 1 });
 
     };
 
     this.miss = function (params, target) {
 
         var d = Calc.dist(params, target);
-        this.dataset.push({ inputs: [d.x, d.y], output: 0 });
+        this.dataset.push({ x: [d.x, d.y], y: 0 });
 
     };
 
@@ -76,10 +76,8 @@ function Enemy(p) {
         this.trained = false;
 
         setTimeout(() => { self.train(self.dataset) }, 9999);
-        this.neuron = new Perceptron();
-        this.neuron.init(0.5, 1000);
-        this.neuron.train(dataset);
         this.dataset = dataset;
+        treinar(this.dataset);
         this.trained = true;
 
     };
@@ -88,13 +86,15 @@ function Enemy(p) {
 
         if (this.trained) {
             for (let i in this.enemies) {
+
                 var d = Calc.dist(this, this.enemies[i]);
-                this.neuron.run([d.x, d.y], (o) => {
+                var x = [d.x, d.y];
+                var o = testar(x);
 
-                    self.keys.a = ((o == 1) ? true : false);
-                    console.log({ x: d.x, y: d.y, o });
+                self.keys.a = ((o == 1) ? true : false);
 
-                });
+                console.log({ x, o });
+
             }
         }
 

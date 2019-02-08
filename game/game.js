@@ -96,6 +96,6 @@ window.onload = function () {
 
     setTimeout(() => {
         enemy.train(ship.dataset);
-    }, 5000);
+    }, 10000);
 
 };
