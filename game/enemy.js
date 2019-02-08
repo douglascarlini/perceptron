@@ -21,6 +21,7 @@ function Enemy(p) {
     this.trained = false;
     this.img = new Image();
     this.img.src = 'ship.png';
+    this.neuron = new Perceptron();
     this.initial = { x: p.px, y: p.py, r: p.pr };
 
     this.keys = { u: false, d: false, l: false, r: false, a: false };
@@ -86,9 +87,8 @@ function Enemy(p) {
         this.trained = false;
 
         setTimeout(() => { self.train(self.dataset) }, 9999);
+        this.neuron.treinar(dataset);
         this.dataset = dataset;
-        treinar(this.dataset);
-        console.log(dataset);
         this.trained = true;
 
     };
@@ -100,7 +100,7 @@ function Enemy(p) {
 
                 var d = Calc.dist(this, this.enemies[i]);
                 var x = [parseInt(d.x), parseInt(d.y)];
-                var o = testar(x);
+                var o = this.neuron.testar(x);
 
                 self.keys.a = ((o == 1) ? true : false);
 
