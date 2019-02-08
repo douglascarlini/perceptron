@@ -2,7 +2,7 @@
 
 function plan(max) { return parseInt(-max + Math.random() * (max * 2)); }
 function rand(max) { return parseInt(Math.random() * max); }
-var dataset = [], loop, max = 99;
+var dataset = [], loop, max = 500;
 
 function initData() {
 
