@@ -2,7 +2,6 @@
 
     var self = function () {
 
-        this.epocas = 10000;
         this.apredizado = 0.5;
         this.entradas = [{ x: [0, 0], y: 0 }];
         this.ativar = (u) => { return (1 / (1 + Math.exp(-u))); };
@@ -11,7 +10,7 @@
         this.testar = function (x) { var u = 0; x.map((v, i) => { u += this.pesos[i] * x[i] }); return this.ativar(u + 1); };
 
         this.treinar = function (x) {
-            for (let epoca = 1; epoca < this.epocas; epoca++) {
+            for (let i = 1; i < 10000; i++) {
                 x.map((v, i) => {
                     var valor = this.testar(x[i].x);
                     if (valor != x[i].y) {
@@ -20,7 +19,7 @@
                     }
                 });
             }
-        };
+        }
 
     };
 
