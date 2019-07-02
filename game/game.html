@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game - IA</title>
+    <script src="perceptron.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        var neuron = new Perceptron();
+
+        neuron.treinar([
+            { x: [140, 5], y: 1 },
+            { x: [168, 9], y: 1 },
+            { x: [12, 120], y: 0 },
+            { x: [21, 135], y: 0 },
+        ]);
+
+        console.log(`Fim do treino!`);
+        var s = (o) => JSON.stringify(o);
+        var rand = (n) => parseInt(Math.random() * n);
+
+        for (let i = 0; i < 100; i++) {
+            var inp = [rand(300), rand(300)];
+            var res = neuron.testar(inp);
+            var out = Math.round(res);
+            var str = s({ out, inp });
+            console.log(str);
+        }
+    </script>
+
+</body>
+
+</html>
